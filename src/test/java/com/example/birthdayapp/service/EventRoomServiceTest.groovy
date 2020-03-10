@@ -11,9 +11,7 @@ import spock.lang.Specification
 class EventRoomServiceTest extends Specification {
 
 
-    def "GetAll"() {
-
-
+    def "GetAllRoomEvents"() {
         given:
         def eventRoomRepository = Mock(EventRoomRepository)
         def eventRoomConverter = Mock(EventRoomConverter)
@@ -41,7 +39,7 @@ class EventRoomServiceTest extends Specification {
     }
 
 
-    def "GetAllWithException"() {
+    def "GetAllRoomEvenWithException"() {
 
 
         given:
@@ -90,6 +88,8 @@ class EventRoomServiceTest extends Specification {
 
         def eventRoomService = new EventRoomService(eventRoomRepository,eventRoomConverter)
 
+
+
         def eventRoomResourceMock = new EventRoomResource()
         eventRoomResourceMock.setRanking(2)
         eventRoomResourceMock.setCapacity(2L)
@@ -103,6 +103,45 @@ class EventRoomServiceTest extends Specification {
 
         then:
         1 * eventRoomRepository.existsByName(eventRoomResourceMock.getName()) >> true
+        thrown(ExistRoomException.class)
+    }
+
+    def "findOneEventRoom"(){
+        given:
+        def eventRoomRepository = Mock(EventRoomRepository)
+        def eventRoomConverter = Mock(EventRoomConverter)
+
+        def eventRoomService = new EventRoomService(eventRoomRepository,eventRoomConverter)
+
+        def eventRoomMock = new EventRoom()
+        eventRoomMock.setRanking(2)
+        eventRoomMock.setCapacity(2L)
+        eventRoomMock.setName("lala")
+        eventRoomMock.setId(2L)
+        eventRoomMock.setScheduleAvailable("asda")
+
+        when:
+        eventRoomService.findOne(1L)
+
+        then:
+        1 * eventRoomRepository.findById(_) >> Optional.ofNullable(eventRoomMock)
+        1 * eventRoomConverter.convert(eventRoomMock)
+    }
+
+
+    def "findOneEventRoomWithException"(){
+
+        given:
+        def eventRoomRepository = Mock(EventRoomRepository)
+        def eventRoomConverter = Mock(EventRoomConverter)
+
+        def eventRoomService = new EventRoomService(eventRoomRepository,eventRoomConverter)
+
+        when:
+        eventRoomService.findOne(1L)
+
+        then:
+        1 * eventRoomRepository.findById(_) >> Optional.ofNullable(null)
         thrown(ExistRoomException.class)
     }
 }

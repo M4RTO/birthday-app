@@ -45,4 +45,10 @@ public class EventRoomService {
         Boolean aBoolean = repository.existsByName(name);
         if(aBoolean) throw new ExistRoomException("There are a room event with this name");
     }
+
+    public EventRoomResource findOne(Long id) {
+        EventRoom eventRoom = repository.findById(id).orElseThrow(() -> new ExistRoomException("There are not room with this id"));
+        return converter.convert(eventRoom);
+    }
+
 }
