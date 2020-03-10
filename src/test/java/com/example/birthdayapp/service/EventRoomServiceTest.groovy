@@ -144,4 +144,61 @@ class EventRoomServiceTest extends Specification {
         1 * eventRoomRepository.findById(_) >> Optional.ofNullable(null)
         thrown(ExistRoomException.class)
     }
+
+    def "updateRoomEvent"(){
+        given:
+        def eventRoomRepository = Mock(EventRoomRepository)
+        def eventRoomConverter = Mock(EventRoomConverter)
+
+        def eventRoomService = new EventRoomService(eventRoomRepository,eventRoomConverter)
+
+
+        def eventRoomResourceMock = new EventRoomResource()
+        eventRoomResourceMock.setRanking(2)
+        eventRoomResourceMock.setCapacity(2L)
+        eventRoomResourceMock.setName("lala")
+        eventRoomResourceMock.setId(2L)
+        eventRoomResourceMock.setScheduleAvailable("asda")
+
+        def eventRoomMock = new EventRoom()
+        eventRoomMock.setRanking(2)
+        eventRoomMock.setCapacity(2L)
+        eventRoomMock.setName("lala")
+        eventRoomMock.setId(2L)
+        eventRoomMock.setScheduleAvailable("asda")
+
+        when:
+        eventRoomService.update(eventRoomResourceMock)
+
+
+        then:
+        1 * eventRoomRepository.findById(eventRoomResourceMock.getId()) >> Optional.ofNullable(eventRoomMock)
+        1 * eventRoomConverter.convert(eventRoomMock,eventRoomResourceMock)
+        1 * eventRoomRepository.save(eventRoomMock)
+    }
+
+    def "updateRoomEventWithException"(){
+        given:
+        def eventRoomRepository = Mock(EventRoomRepository)
+        def eventRoomConverter = Mock(EventRoomConverter)
+
+        def eventRoomService = new EventRoomService(eventRoomRepository,eventRoomConverter)
+
+
+        def eventRoomResourceMock = new EventRoomResource()
+        eventRoomResourceMock.setRanking(2)
+        eventRoomResourceMock.setCapacity(2L)
+        eventRoomResourceMock.setName("lala")
+        eventRoomResourceMock.setId(2L)
+        eventRoomResourceMock.setScheduleAvailable("asda")
+
+        when:
+        eventRoomService.update(eventRoomResourceMock)
+
+
+        then:
+        1 * eventRoomRepository.findById(eventRoomResourceMock.getId()) >> Optional.ofNullable(null)
+        thrown(ExistRoomException.class)
+
+    }
 }

@@ -34,4 +34,12 @@ public class EventRoomConverter {
         eventRoom.setSquareMeters(eventRoomResource.getSquareMeters());
         return eventRoom;
     }
+
+    public void convert(EventRoom eventRoom, EventRoomResource resource) {
+        eventRoom.setCapacity(resource.getCapacity());
+        eventRoom.setName(resource.getName());
+        eventRoom.setRanking(resource.getRanking());
+        eventRoom.setScheduleAvailable(resource.getScheduleAvailable());
+        eventRoom.setSquareMeters(resource.getSquareMeters());
+    }
 }

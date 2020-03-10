@@ -35,6 +35,11 @@ public class EventRoomController {
         service.create(eventRoomResource);
     }
 
+    @PutMapping("/")
+    public void updateRoomEvent(EventRoomResource eventRoomResource){
+        service.update(eventRoomResource);
+    }
+
 
 
 }

@@ -32,13 +32,9 @@ public class EventRoomService {
     }
 
     public void create(EventRoomResource eventRoomResource) {
-       try {
-           existByName(eventRoomResource.getName());
-           EventRoom entity = converter.convert(eventRoomResource);
-           repository.save(entity);
-       }catch (Exception e){
-           throw e;
-       }
+        existByName(eventRoomResource.getName());
+        EventRoom entity = converter.convert(eventRoomResource);
+        repository.save(entity);
     }
 
     private void existByName(String name){
@@ -47,8 +43,18 @@ public class EventRoomService {
     }
 
     public EventRoomResource findOne(Long id) {
-        EventRoom eventRoom = repository.findById(id).orElseThrow(() -> new ExistRoomException("There are not room with this id"));
+        EventRoom eventRoom = getEventRoom(id);
         return converter.convert(eventRoom);
     }
 
+    private EventRoom getEventRoom(Long id) {
+        return repository.findById(id).orElseThrow(() -> new ExistRoomException("There are not room with this id"));
+    }
+
+    public void update(EventRoomResource resource) {
+        EventRoom eventRoom = getEventRoom(resource.getId());
+        converter.convert(eventRoom,resource);
+        repository.save(eventRoom);
+
+    }
 }
