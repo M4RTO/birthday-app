@@ -13,4 +13,5 @@ interface EventRoomRepository extends CrudRepository<EventRoom, Long> {
     @Override
     List<EventRoom> findAll();
 
+    Boolean existsByName(String name);
 }

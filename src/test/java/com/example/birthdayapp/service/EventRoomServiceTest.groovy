@@ -1,7 +1,9 @@
 package com.example.birthdayapp.service
 
 import com.example.birthdayapp.converter.EventRoomConverter
+import com.example.birthdayapp.domain.EventRoomResource
 import com.example.birthdayapp.entity.EventRoom
+import com.example.birthdayapp.exception.ExistRoomException
 import com.example.birthdayapp.exception.NotFoundRoomException
 import com.example.birthdayapp.repository.EventRoomRepository
 import spock.lang.Specification
@@ -54,5 +56,53 @@ class EventRoomServiceTest extends Specification {
 
         then:
         thrown(NotFoundRoomException.class)
+    }
+
+    def "Create RoomEvent"(){
+        given:
+        def eventRoomRepository = Mock(EventRoomRepository)
+        def eventRoomConverter = Mock(EventRoomConverter)
+
+        def eventRoomService = new EventRoomService(eventRoomRepository,eventRoomConverter)
+
+        def eventRoomResourceMock = new EventRoomResource()
+        eventRoomResourceMock.setRanking(2)
+        eventRoomResourceMock.setCapacity(2L)
+        eventRoomResourceMock.setName("lala")
+        eventRoomResourceMock.setId(2L)
+        eventRoomResourceMock.setScheduleAvailable("asda")
+
+
+        when:
+        eventRoomService.create(eventRoomResourceMock)
+
+        then:
+        1 * eventRoomRepository.existsByName(eventRoomResourceMock.getName()) >> false
+        1 * eventRoomConverter.convert(eventRoomResourceMock)
+        1 * eventRoomRepository.save(_)
+    }
+
+
+    def "Create RoomEventWithException"(){
+        given:
+        def eventRoomRepository = Mock(EventRoomRepository)
+        def eventRoomConverter = Mock(EventRoomConverter)
+
+        def eventRoomService = new EventRoomService(eventRoomRepository,eventRoomConverter)
+
+        def eventRoomResourceMock = new EventRoomResource()
+        eventRoomResourceMock.setRanking(2)
+        eventRoomResourceMock.setCapacity(2L)
+        eventRoomResourceMock.setName("lala")
+        eventRoomResourceMock.setId(2L)
+        eventRoomResourceMock.setScheduleAvailable("asda")
+
+
+        when:
+        eventRoomService.create(eventRoomResourceMock)
+
+        then:
+        1 * eventRoomRepository.existsByName(eventRoomResourceMock.getName()) >> true
+        thrown(ExistRoomException.class)
     }
 }

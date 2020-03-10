@@ -4,9 +4,9 @@ package com.example.birthdayapp.service;
 import com.example.birthdayapp.converter.EventRoomConverter;
 import com.example.birthdayapp.domain.EventRoomResource;
 import com.example.birthdayapp.entity.EventRoom;
+import com.example.birthdayapp.exception.ExistRoomException;
 import com.example.birthdayapp.exception.NotFoundRoomException;
 import com.example.birthdayapp.repository.EventRoomRepository;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +32,17 @@ public class EventRoomService {
     }
 
     public void create(EventRoomResource eventRoomResource) {
+       try {
+           existByName(eventRoomResource.getName());
+           EventRoom entity = converter.convert(eventRoomResource);
+           repository.save(entity);
+       }catch (Exception e){
+           throw e;
+       }
+    }
 
+    private void existByName(String name){
+        Boolean aBoolean = repository.existsByName(name);
+        if(aBoolean) throw new ExistRoomException("There are a room event with this name");
     }
 }

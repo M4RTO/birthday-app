@@ -24,4 +24,14 @@ public class EventRoomConverter {
         eventRoomResource.setScheduleAvailable(eventRoom.getScheduleAvailable());
         return eventRoomResource;
     }
+
+    public EventRoom convert(EventRoomResource eventRoomResource) {
+        EventRoom eventRoom = new EventRoom();
+        eventRoom.setCapacity(eventRoomResource.getCapacity());
+        eventRoom.setName(eventRoomResource.getName());
+        eventRoom.setRanking(eventRoomResource.getRanking());
+        eventRoom.setScheduleAvailable(eventRoomResource.getScheduleAvailable());
+        eventRoom.setSquareMeters(eventRoomResource.getSquareMeters());
+        return eventRoom;
+    }
 }
