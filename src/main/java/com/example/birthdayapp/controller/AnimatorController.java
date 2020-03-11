@@ -23,6 +23,22 @@ public class AnimatorController {
         return service.getAll();
     }
 
+    public AnimatorResource getOne(@PathVariable Long id){
+        return service.findOne(id);
+    }
+
+
+    @PostMapping("/")
+    public void createAnimator(AnimatorResource animatorResource){
+        service.create(animatorResource);
+    }
+
+    @PutMapping("/")
+    public void updateAnimator(AnimatorResource animatorResource){
+        service.update(animatorResource);
+    }
+
+
 
 
 

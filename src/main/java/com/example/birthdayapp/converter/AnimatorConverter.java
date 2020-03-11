@@ -25,4 +25,23 @@ public class AnimatorConverter {
         resource.setId(animator.getId());
         return resource;
     }
+
+    public Animator convert(AnimatorResource resource) {
+        Animator entity = new Animator();
+        entity.setCompany(resource.getCompany());
+        entity.setName(resource.getName());
+        entity.setRanking(resource.getRanking());
+        entity.setSalaryPerHour(resource.getSalaryPerHour());
+        entity.setScheduleAvailable(resource.getScheduleAvailable());
+        entity.setId(resource.getId());
+        return entity;
+    }
+
+    public void convert(Animator animator, AnimatorResource resource) {
+        animator.setCompany(resource.getCompany());
+        animator.setName(resource.getName());
+        animator.setRanking(resource.getRanking());
+        animator.setSalaryPerHour(resource.getSalaryPerHour());
+        animator.setScheduleAvailable(resource.getScheduleAvailable());
+    }
 }
