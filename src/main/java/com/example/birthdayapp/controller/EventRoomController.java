@@ -3,6 +3,8 @@ package com.example.birthdayapp.controller;
 import com.example.birthdayapp.domain.EventRoomResource;
 import com.example.birthdayapp.service.EventRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +20,7 @@ public class EventRoomController {
         this.service = service;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<EventRoomResource> getAll(){
         return service.getAll();
     }
@@ -30,13 +32,14 @@ public class EventRoomController {
     }
 
 
-    @PostMapping("/")
-    public void createRoomEvent(EventRoomResource eventRoomResource){
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createRoomEvent(@RequestBody EventRoomResource eventRoomResource){
         service.create(eventRoomResource);
     }
 
     @PutMapping("/")
-    public void updateRoomEvent(EventRoomResource eventRoomResource){
+    public void updateRoomEvent(@RequestBody EventRoomResource eventRoomResource){
         service.update(eventRoomResource);
     }
 

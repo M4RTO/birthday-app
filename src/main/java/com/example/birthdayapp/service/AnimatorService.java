@@ -41,7 +41,7 @@ public class AnimatorService {
         return converter.convert(animator);
     }
 
-    private Animator getAnimator(Long id) {
+    public Animator getAnimator(Long id) {
         return repository.findById(id).orElseThrow(() -> new NotFoundAnimatorException("There are not Animator with this id"));
     }
 

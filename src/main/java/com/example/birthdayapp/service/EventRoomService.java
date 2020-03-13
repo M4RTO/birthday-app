@@ -47,7 +47,7 @@ public class EventRoomService {
         return converter.convert(eventRoom);
     }
 
-    private EventRoom getEventRoom(Long id) {
+    public EventRoom getEventRoom(Long id) {
         return repository.findById(id).orElseThrow(() -> new ExistRoomException("There are not room with this id"));
     }
 

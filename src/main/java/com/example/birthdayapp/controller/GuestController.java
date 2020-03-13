@@ -31,7 +31,7 @@ public class GuestController {
 
 
     @PutMapping("/")
-    public void updateAnimator(GuestResource guestResource){
+    public void updateAnimator(@RequestBody GuestResource guestResource){
         service.update(guestResource);
     }
 
