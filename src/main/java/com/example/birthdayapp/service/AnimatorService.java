@@ -42,7 +42,7 @@ public class AnimatorService {
     }
 
     private Animator getAnimator(Long id) {
-        return repository.findById(id).orElseThrow(() -> new ExistAnimatorException("There are not Animator with this id"));
+        return repository.findById(id).orElseThrow(() -> new NotFoundAnimatorException("There are not Animator with this id"));
     }
 
     public void update(AnimatorResource resource) {
