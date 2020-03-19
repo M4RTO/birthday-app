@@ -1,10 +1,15 @@
 package com.example.birthdayapp.controller;
 
+import com.example.birthdayapp.anotations.CurrentUser;
 import com.example.birthdayapp.domain.AnimatorResource;
+import com.example.birthdayapp.entity.User;
+import com.example.birthdayapp.security.UserPrincipal;
 import com.example.birthdayapp.service.AnimatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,6 +31,7 @@ public class AnimatorController {
         return service.getAll();
     }
 
+    @GetMapping("/{id}")
     public AnimatorResource getOne(@PathVariable Long id){
         return service.findOne(id);
     }
@@ -33,11 +39,13 @@ public class AnimatorController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createAnimator(@Valid @RequestBody AnimatorResource animatorResource){
-        service.create(animatorResource);
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public void createAnimator(@Valid @RequestBody AnimatorResource animatorResource, @CurrentUser User currentUser){
+        service.create(animatorResource,currentUser);
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void updateAnimator(@RequestBody AnimatorResource animatorResource){
         service.update(animatorResource);
     }

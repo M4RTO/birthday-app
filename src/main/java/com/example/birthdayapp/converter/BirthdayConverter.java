@@ -12,14 +12,10 @@ import java.util.stream.Collectors;
 @Component
 public class BirthdayConverter {
 
-    private EventRoomConverter eventRoomConverter;
-    private AnimatorConverter animatorConverter;
     private GuestConverter guestConverter;
 
     @Autowired
-    public BirthdayConverter(EventRoomConverter eventRoomConverter, AnimatorConverter animatorConverter, GuestConverter guestConverter) {
-        this.eventRoomConverter = eventRoomConverter;
-        this.animatorConverter = animatorConverter;
+    public BirthdayConverter(GuestConverter guestConverter) {
         this.guestConverter = guestConverter;
     }
 
@@ -27,8 +23,8 @@ public class BirthdayConverter {
         BirthdayEvent entity = new BirthdayEvent();
         entity.setBirthdayName(resource.getBirthdayName());
         entity.setBirthdayDate(resource.getBirthdayDate());
-        entity.setEventRoom(eventRoomConverter.convert(resource.getEventRoom()));
-        entity.setAnimator(animatorConverter.convert(resource.getAnimator()));
+        entity.setEventRoom(eventRoom);
+        entity.setAnimator(animator);
         entity.setGuestList(resource.getGuestList().stream().map( g -> guestConverter.convert(g)).collect(Collectors.toList()));
         entity.setBirthdayYear(resource.getBirthdayYear());
         entity.setAnimator(animator);

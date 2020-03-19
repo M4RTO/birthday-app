@@ -2,6 +2,7 @@ package com.example.birthdayapp.converter;
 
 import com.example.birthdayapp.domain.AnimatorResource;
 import com.example.birthdayapp.entity.Animator;
+import com.example.birthdayapp.entity.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class AnimatorConverter {
         return resource;
     }
 
-    public Animator convert(AnimatorResource resource) {
+    public Animator convert(AnimatorResource resource, User user) {
         Animator entity = new Animator();
         entity.setCompany(resource.getCompany());
         entity.setName(resource.getName());
@@ -34,6 +35,7 @@ public class AnimatorConverter {
         entity.setSalaryPerHour(resource.getSalaryPerHour());
         entity.setScheduleAvailable(resource.getScheduleAvailable());
         entity.setId(resource.getId());
+        entity.setUser(user);
         return entity;
     }
 

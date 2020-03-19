@@ -5,6 +5,7 @@ import com.example.birthdayapp.service.EventRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,11 +35,13 @@ public class EventRoomController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void createRoomEvent(@RequestBody EventRoomResource eventRoomResource){
         service.create(eventRoomResource);
     }
 
     @PutMapping("/")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void updateRoomEvent(@RequestBody EventRoomResource eventRoomResource){
         service.update(eventRoomResource);
     }

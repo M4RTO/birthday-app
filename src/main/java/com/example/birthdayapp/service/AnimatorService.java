@@ -3,6 +3,7 @@ package com.example.birthdayapp.service;
 import com.example.birthdayapp.converter.AnimatorConverter;
 import com.example.birthdayapp.domain.AnimatorResource;
 import com.example.birthdayapp.entity.Animator;
+import com.example.birthdayapp.entity.User;
 import com.example.birthdayapp.exception.ExistAnimatorException;
 import com.example.birthdayapp.exception.NotFoundAnimatorException;
 import com.example.birthdayapp.repository.AnimatorRepository;
@@ -31,8 +32,8 @@ public class AnimatorService {
     }
 
 
-    public void create(AnimatorResource animatorResource) {
-        Animator entity = converter.convert(animatorResource);
+    public void create(AnimatorResource animatorResource, User currentUser) {
+        Animator entity = converter.convert(animatorResource,currentUser);
         repository.save(entity);
     }
 
