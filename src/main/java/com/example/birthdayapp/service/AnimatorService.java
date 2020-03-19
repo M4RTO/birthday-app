@@ -7,7 +7,11 @@ import com.example.birthdayapp.entity.User;
 import com.example.birthdayapp.exception.ExistAnimatorException;
 import com.example.birthdayapp.exception.NotFoundAnimatorException;
 import com.example.birthdayapp.repository.AnimatorRepository;
+import com.example.birthdayapp.repository.UserRepository;
+import com.example.birthdayapp.security.CustomUserDetailsService;
+import com.example.birthdayapp.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,12 +22,14 @@ public class AnimatorService {
 
     private AnimatorRepository repository;
     private AnimatorConverter converter;
+    private CustomUserDetailsService customUserDetailsService;
 
 
     @Autowired
-    public AnimatorService(AnimatorRepository repository, AnimatorConverter converter) {
+    public AnimatorService(AnimatorRepository repository, AnimatorConverter converter, CustomUserDetailsService customUserDetailsService) {
         this.repository = repository;
         this.converter = converter;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     public List<AnimatorResource> getAll() {
@@ -32,8 +38,9 @@ public class AnimatorService {
     }
 
 
-    public void create(AnimatorResource animatorResource, User currentUser) {
-        Animator entity = converter.convert(animatorResource,currentUser);
+    public void create(AnimatorResource animatorResource, UserPrincipal currentUser) {
+        User user = customUserDetailsService.getUser(currentUser.getId());
+        Animator entity = converter.convert(animatorResource,user);
         repository.save(entity);
     }
 

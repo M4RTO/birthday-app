@@ -4,10 +4,14 @@ package com.example.birthdayapp.service;
 import com.example.birthdayapp.converter.EventRoomConverter;
 import com.example.birthdayapp.domain.EventRoomResource;
 import com.example.birthdayapp.entity.EventRoom;
+import com.example.birthdayapp.entity.User;
 import com.example.birthdayapp.exception.ExistRoomException;
 import com.example.birthdayapp.exception.NotFoundRoomException;
 import com.example.birthdayapp.repository.EventRoomRepository;
+import com.example.birthdayapp.security.CustomUserDetailsService;
+import com.example.birthdayapp.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,11 +22,14 @@ public class EventRoomService {
 
     private EventRoomRepository repository;
     private EventRoomConverter converter;
+    private CustomUserDetailsService userDetailsService;
+
 
     @Autowired
-    public EventRoomService(EventRoomRepository repository, EventRoomConverter converter) {
+    public EventRoomService(EventRoomRepository repository, EventRoomConverter converter, CustomUserDetailsService userDetailsService) {
         this.repository = repository;
         this.converter = converter;
+        this.userDetailsService = userDetailsService;
     }
 
     public List<EventRoomResource> getAll() {
@@ -31,9 +38,10 @@ public class EventRoomService {
 
     }
 
-    public void create(EventRoomResource eventRoomResource) {
+    public void create(EventRoomResource eventRoomResource, UserPrincipal currentUser) {
         existByName(eventRoomResource.getName());
-        EventRoom entity = converter.convert(eventRoomResource);
+        User user = userDetailsService.getUser(currentUser.getId());
+        EventRoom entity = converter.convert(eventRoomResource,user);
         repository.save(entity);
     }
 

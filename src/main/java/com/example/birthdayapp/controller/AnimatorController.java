@@ -40,7 +40,7 @@ public class AnimatorController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public void createAnimator(@Valid @RequestBody AnimatorResource animatorResource, @CurrentUser User currentUser){
+    public void createAnimator(@Valid @RequestBody AnimatorResource animatorResource, @CurrentUser UserPrincipal currentUser){
         service.create(animatorResource,currentUser);
     }
 

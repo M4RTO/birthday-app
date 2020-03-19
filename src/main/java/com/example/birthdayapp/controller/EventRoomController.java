@@ -1,6 +1,9 @@
 package com.example.birthdayapp.controller;
 
+import com.example.birthdayapp.anotations.CurrentUser;
 import com.example.birthdayapp.domain.EventRoomResource;
+import com.example.birthdayapp.entity.User;
+import com.example.birthdayapp.security.UserPrincipal;
 import com.example.birthdayapp.service.EventRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,8 +39,8 @@ public class EventRoomController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public void createRoomEvent(@RequestBody EventRoomResource eventRoomResource){
-        service.create(eventRoomResource);
+    public void createRoomEvent(@RequestBody EventRoomResource eventRoomResource,@CurrentUser UserPrincipal currentUser){
+        service.create(eventRoomResource,currentUser);
     }
 
     @PutMapping("/")
