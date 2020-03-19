@@ -24,7 +24,6 @@ public class EventRoomService {
     private EventRoomConverter converter;
     private CustomUserDetailsService userDetailsService;
 
-
     @Autowired
     public EventRoomService(EventRoomRepository repository, EventRoomConverter converter, CustomUserDetailsService userDetailsService) {
         this.repository = repository;
