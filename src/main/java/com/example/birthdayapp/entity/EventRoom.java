@@ -1,5 +1,6 @@
 package com.example.birthdayapp.entity;
 
+import com.example.birthdayapp.entity.audit.DateAudit;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Table(name = "event_room",schema = "birthday_DB")
-public class EventRoom {
+public class EventRoom extends DateAudit {
 
 
     @Id

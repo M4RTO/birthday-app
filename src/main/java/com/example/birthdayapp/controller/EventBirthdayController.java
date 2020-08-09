@@ -24,4 +24,11 @@ public class EventBirthdayController {
         service.create(resource);
     }
 
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateBirthday(@RequestBody BirthdayResource resource) {
+        service.update(resource);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.example.birthdayapp.entity;
 
+import com.example.birthdayapp.entity.audit.DateAudit;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Table(name = "animator",schema = "birthday_DB")
-public class Animator {
+public class Animator extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

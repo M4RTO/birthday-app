@@ -6,7 +6,6 @@ import com.example.birthdayapp.entity.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Component

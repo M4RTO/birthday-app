@@ -32,4 +32,9 @@ public class BirthdayService {
         BirthdayEvent entity = converter.convert(resource,animator,eventRoom);
         repository.save(entity);
     }
+
+    public void update(BirthdayResource resource) {
+
+    }
+
 }
